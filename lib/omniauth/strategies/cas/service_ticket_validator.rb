@@ -78,11 +78,11 @@ module OmniAuth
           result = ''
           http = Net::HTTP.new(@uri.host, @uri.port)
           http.use_ssl = @uri.port == 443 || @uri.instance_of?(URI::HTTPS)
-          http.ssl_version = :SSLv3
           if http.use_ssl?
             http.verify_mode = OpenSSL::SSL::VERIFY_NONE if @options.disable_ssl_verification?
             http.ca_path = @options.ca_path
           end
+          http.ssl_version = :SSLv3
           http.start do |c|
             response = c.get "#{@uri.path}?#{@uri.query}", VALIDATION_REQUEST_HEADERS.dup
             result = response.body
